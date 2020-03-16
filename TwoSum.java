@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 1. Two Sum (easy)
+ * 1. Two Sum (Easy)
  * https://leetcode.com/problems/two-sum/
  * 
  * Given an array of integers, return indices of the two numbers such that they

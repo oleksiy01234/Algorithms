@@ -1,5 +1,5 @@
 /**
- * 42. Trapping Rain Water (hard)
+ * 42. Trapping Rain Water (Hard)
  * https://leetcode.com/problems/trapping-rain-water/
  * 
  * Given n non-negative integers representing an elevation map where the width

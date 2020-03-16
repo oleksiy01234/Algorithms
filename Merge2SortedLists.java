@@ -1,5 +1,5 @@
 /**
- * 21. Merge Two Sorted Lists
+ * 21. Merge Two Sorted Lists (Easy)
  * https://leetcode.com/problems/merge-two-sorted-lists/
  * 
  * Merge two sorted linked lists and return it as a new list. The new list
