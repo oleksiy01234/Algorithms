@@ -2,10 +2,20 @@ package Amazon;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 
-public class ComparatorSyntax {
-  public void example() {
+public class Syntax {
+  public static void main(String[] args) {
+    forLoop();
+  }
+
+  static void forLoop() {
+    List<Integer> list = Arrays.asList(1, 4, 5, 6);
+    list.forEach(n -> System.out.print(n + ", "));
+  }
+
+  static void comparator() {
     PriorityQueue<String> words = new PriorityQueue<>(Collections.reverseOrder());
     words.add("12");
 
@@ -14,10 +24,7 @@ public class ComparatorSyntax {
 
     String[] logs = new String[10];
     Arrays.sort(logs, (log1, log2) -> {
-      if (log1.length() > 5) {
-        return 1;
-      }
-      return -1;
+      return log1.isEmpty() ? 1 : -1;
     });
   }
 }

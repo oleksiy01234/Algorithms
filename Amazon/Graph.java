@@ -25,7 +25,7 @@ public class Graph<T> {
       return;
     }
     vertices.put(vertex.id, vertex);
-    for (Edge<T> edge : vertex.getEdges()) {
+    for (Edge<T> edge : vertex.edges) {
       edges.add(edge);
     }
   }
@@ -39,37 +39,29 @@ public class Graph<T> {
     return v;
   }
 
-  Vertex<T> getVertex(int id) {
-    return vertices.get(id);
-  }
-
   void addEdge(int id1, int id2, int weight) {
-    Vertex<T> vertex1 = null;
+    Vertex<T> v1 = null;
     if (vertices.containsKey(id1)) {
-      vertex1 = vertices.get(id1);
+      v1 = vertices.get(id1);
     } else {
-      vertex1 = new Vertex<T>(id1);
-      vertices.put(id1, vertex1);
+      v1 = new Vertex<T>(id1);
+      vertices.put(id1, v1);
     }
-    Vertex<T> vertex2 = null;
+
+    Vertex<T> v2 = null;
     if (vertices.containsKey(id2)) {
-      vertex2 = vertices.get(id2);
+      v2 = vertices.get(id2);
     } else {
-      vertex2 = new Vertex<T>(id2);
-      vertices.put(id2, vertex2);
+      v2 = new Vertex<T>(id2);
+      vertices.put(id2, v2);
     }
 
-    Edge<T> edge = new Edge<T>(vertex1, vertex2, isDirected, weight);
+    Edge<T> edge = new Edge<T>(v1, v2, isDirected, weight);
     edges.add(edge);
-    vertex1.addAdjacentVertex(edge, vertex2);
+    v1.addAdjacentVertex(edge, v2);
     if (!isDirected) {
-      vertex2.addAdjacentVertex(edge, vertex1);
+      v2.addAdjacentVertex(edge, v1);
     }
-
-  }
-
-  public List<Edge<T>> getAllEdges() {
-    return edges;
   }
 
   public Vertex<T> getStartVertex() {
@@ -86,7 +78,7 @@ public class Graph<T> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (Edge<T> edge : getAllEdges()) {
+    for (Edge<T> edge : edges) {
       sb.append(edge.vertex1 + " " + edge.vertex2 + " " + edge.weight + "\n");
     }
     return sb.toString();
@@ -97,31 +89,15 @@ class Vertex<T> {
   int id;
   T data;
   List<Edge<T>> edges = new ArrayList<>();
-  List<Vertex<T>> adjacentVertex = new ArrayList<>();
+  List<Vertex<T>> adjacentVertices = new ArrayList<>();
 
   Vertex(int id) {
     this.id = id;
   }
 
-  public T getData() {
-    return data;
-  }
-
   public void addAdjacentVertex(Edge<T> e, Vertex<T> v) {
     edges.add(e);
-    adjacentVertex.add(v);
-  }
-
-  public String toString() {
-    return String.valueOf(id);
-  }
-
-  public List<Vertex<T>> getAdjacentVertices() {
-    return adjacentVertex;
-  }
-
-  public List<Edge<T>> getEdges() {
-    return edges;
+    adjacentVertices.add(v);
   }
 
   public int getDegree() {
