@@ -20,9 +20,9 @@ import java.util.Map;
  */
 
 public class LRUCache {
-  Map<Integer, ListNode> map = new HashMap<>();
-  ListNode head = null;
-  ListNode tail = null;
+  Map<Integer, Node> map = new HashMap<>();
+  Node head = null;
+  Node tail = null;
   int max;
 
   public LRUCache(int capacity) {
@@ -34,7 +34,7 @@ public class LRUCache {
       return -1;
     }
 
-    ListNode n = map.get(key);
+    Node n = map.get(key);
     remove(n);
     prepend(n);
     return n.val;
@@ -42,7 +42,7 @@ public class LRUCache {
 
   public void put(int key, int val) {
     if (map.containsKey(key)) {
-      ListNode node = map.get(key);
+      Node node = map.get(key);
       node.val = val;
       remove(node);
       prepend(node);
@@ -54,12 +54,12 @@ public class LRUCache {
       remove(tail);
     }
 
-    ListNode n = new ListNode(key, val);
+    Node n = new Node(key, val);
     map.put(key, n);
     prepend(n);
   }
 
-  public void prepend(ListNode n) {
+  public void prepend(Node n) {
     if (head == null) {
       head = n;
       tail = n;
@@ -72,7 +72,7 @@ public class LRUCache {
     head = n;
   }
 
-  public void remove(ListNode n) {
+  public void remove(Node n) {
     if (n == tail) {
       tail = n.prev;
     }
@@ -118,7 +118,7 @@ public class LRUCache {
   }
 
   public void printFromHead() {
-    ListNode n = head;
+    Node n = head;
     System.out.print(". Forward: ");
     StringBuilder sb = new StringBuilder();
 
@@ -131,7 +131,7 @@ public class LRUCache {
   }
 
   public void printFromTail() {
-    ListNode n = tail;
+    Node n = tail;
     System.out.print(". Backward: ");
     StringBuilder sb = new StringBuilder();
 

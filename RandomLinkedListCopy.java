@@ -1,33 +1,25 @@
-package Amazon;
-
 import java.util.HashMap;
 import java.util.Map;
 
 class RandomLinkedListCopy {
-  static class Node {
-    int val;
-    Node next, random;
-
-    Node(int x) {
-      this.val = x;
-    }
-  };
-
   // constant space
-  static Node copyRandomList(Node head) {
-    if (head == null) {
+  public Node copyRandomList(Node oldHead) {
+    if (oldHead == null) {
       return null;
     }
 
-    Node n = head;
+
+    // interweave new nodes
+    Node n = oldHead;
     while (n != null) {
-      Node newNode = new Node(n.val);
-      newNode.next = n.next;
-      n.next = newNode;
-      n = newNode.next;
+      Node nNext = n.next;
+      n.next = new Node(n.val);
+      n.next.next = nNext;
+      n = nNext;
     }
 
-    n = head;
+    // fix new random pointers
+    n = oldHead;
     while (n != null) {
       if (n.random != null) {
         n.next.random = n.random.next;
@@ -35,17 +27,17 @@ class RandomLinkedListCopy {
       n = n.next.next;
     }
 
-    Node oldN = head;
-    Node newN = head.next;
-    Node newHead = head.next;
-
-    while (oldN != null) {
-      oldN.next = oldN.next.next;
-      newN.next = (newN.next != null) ? newN.next.next : null;
-      oldN = oldN.next;
-      newN = newN.next;
+    // un-weave old and new nodes
+    Node newHead = oldHead.next;
+    n = oldHead.next;
+    while (n.next != null) {
+      oldHead.next = n.next;
+      n.next = n.next.next;
+      n = n.next;
+      oldHead = oldHead.next;
     }
 
+    oldHead.next = null;
     return newHead;
   }
 
