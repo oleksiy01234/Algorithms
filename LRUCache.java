@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
 
+import Util.Util;
+
 /**
  * 146. LRU Cache
  * https://leetcode.com/problems/lru-cache/
@@ -20,6 +22,7 @@ import java.util.Map;
  */
 
 public class LRUCache {
+
   Map<Integer, Node> map = new HashMap<>();
   Node head = null;
   Node tail = null;
@@ -93,19 +96,23 @@ public class LRUCache {
   }
 
   public static void main(String[] args) {
-    LRUCache c = new LRUCache(2);
-    c.put(1, 1);
-    c.print("after put(1, 1): ");
-    c.put(2, 2);
-    c.print("after put(2, 2): ");
-    System.out.println(c.get(1));
-    c.print("after get(1): ");
-    System.out.println(c.get(3));
-    c.print("after get(3): ");
-    c.put(3, 3);
-    c.print("after put(3, 3): ");
-    c.put(4, 4);
-    c.print("after put(4, 4): ");
+    int x;
+    LRUCache c = new LRUCache(1);
+
+    do {
+      x = Util.getUserInput("0 - New cache\n1 - Put\n2 - Get\n3 - Print\n").nextInt();
+      
+      if (x == 0) {
+        c = new LRUCache(Util.getUserInput("New Cache Capacity: ").nextInt());
+      } else if (x == 1) {
+        c.put(Util.getUserInput("Key: ").nextInt(), Util.getUserInput("Value: ").nextInt());
+      } else if (x == 2) {
+        System.out.println("Value: " + c.get(Util.getUserInput("Get: ").nextInt()));
+      } else if (x == 3) {
+        c.print("");
+      }
+
+    } while (x != -1);
   }
 
   // debug methods
