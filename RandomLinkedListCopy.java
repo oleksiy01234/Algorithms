@@ -8,7 +8,6 @@ class RandomLinkedListCopy {
       return null;
     }
 
-
     // interweave new nodes
     Node n = oldHead;
     while (n != null) {

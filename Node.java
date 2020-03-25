@@ -4,19 +4,21 @@ class Node {
   Node random;
   Node left;
   Node right;
+  Node parent; // for disjoint set, union find, friend circle
   int key;
   int val;
+  int rank;
 
   Node(int key, int val) {
     this.key = key;
     this.val = val;
   }
 
-  Node(int key) {
-    new Node(key, 0);
+  Node(int val) {
+    this(0, val);
   }
 
   Node() {
-    new Node(0, 0);
+    this(0, 0);
   }
 }
