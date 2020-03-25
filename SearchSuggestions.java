@@ -1,9 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
 
 /**
  * 1268. Search Suggestions System
@@ -48,39 +44,6 @@ public class SearchSuggestions {
   }
 
   // optimization: use arraylist, but sort products
-  class Trie {
-    Map<Character, Trie> map = new HashMap<>();
-    PriorityQueue<String> products = new PriorityQueue<>(Collections.reverseOrder());
-
-    void add(String word, int index) {
-      products.add(word);
-      if (products.size() > 3) {
-        products.poll();
-      }
-
-      if (index == word.length()) {
-        return;
-      }
-
-      char letter = word.charAt(index);
-
-      if (!map.containsKey(letter)) {
-        map.put(letter, new Trie());
-      }
-
-      map.get(letter).add(word, index + 1);
-    }
-
-    List<String> get() {
-      List<String> res = new ArrayList<>();
-      while (!products.isEmpty()) {
-        res.add(0, products.poll());
-      }
-
-      return res;
-    }
-  }
-
   // could also sort products[] and just use ArrayList in Trie, while keeping it <= 3
   public List<List<String>> suggestedProducts(String[] products, String searchWord) {
     Trie root = new Trie();
@@ -92,13 +55,13 @@ public class SearchSuggestions {
     List<List<String>> res = new ArrayList<>();
     for (char c : searchWord.toCharArray()) {
       if (root != null) {
-        root = root.map.get(c);
+        root = root.kids.get(c);
       }
 
       if (root == null) {
         res.add(new ArrayList<>());
       } else {
-        res.add(root.get());
+        res.add(root.getProducts());
       }
     }
     return res;
