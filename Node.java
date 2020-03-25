@@ -8,7 +8,15 @@ class Node {
   int key;
   int val;
   int rank;
+  int min;
 
+  // for min stack
+  Node(int val, int min, Node next) {
+    this.val = val;
+    this.min = min;
+    this.next = next;
+  }
+  
   Node(int key, int val) {
     this.key = key;
     this.val = val;

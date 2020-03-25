@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// https://leetcode.com/problems/critical-connections-in-a-network/
 /**
- * CriticalConnections
+ * 1192. Critical Connections in a Network
+ * // https://leetcode.com/problems/critical-connections-in-a-network/
  * 
  * Find articulation points in connected undirected graph. Articulation points
  * are vertices such that removing any one of them disconnects the graph.
@@ -29,6 +29,69 @@ import java.util.List;
  * http://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
  */
 public class CriticalConnections {
+
+  public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+    List<List<Integer>> graph = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+      graph.add(new ArrayList<>());
+    }
+
+    for (List<Integer> edge : connections) {
+      int v1 = edge.get(0);
+      int v2 = edge.get(1);
+      graph.get(v1).add(v2);
+      graph.get(v2).add(v1);
+    }
+
+    int[] discTimes = new int[n]; // discovery time of each node
+    int[] lowTimes = new int[n]; // earliest discovered node reachable from this node in DFS
+    boolean[] visited = new boolean[n]; // whether this node has been visited in DFS
+    List<List<Integer>> critEdges = new ArrayList<>();
+    List<Integer> artPoints = new ArrayList<>();
+
+    dfs(0, -1, 0, discTimes, lowTimes, visited, graph, critEdges, artPoints); // arbitrarily pick a node to start DFS
+    artPoints.forEach(artPoint -> System.out.println("AP: " + artPoint));
+    return critEdges;
+  }
+
+  // n = current node; p = parent of current node
+  private void dfs(int n, int p, int time, int[] disc, int[] low, boolean[] seen, List<List<Integer>> g,
+      List<List<Integer>> critEdges, List<Integer> artPoints) {
+    seen[n] = true;
+    disc[n] = time;
+    low[n] = disc[n]; // lowTime can't be higher than discTime
+
+    // art points variables
+    int childCount = 0;
+    boolean isArtPoint = false;
+
+    for (int adj : g.get(n)) {
+      if (adj == p) {
+        continue;
+      }
+
+      if (!seen[adj]) {
+        childCount++;
+        dfs(adj, n, time + 1, disc, low, seen, g, critEdges, artPoints);
+
+        if (disc[n] <= low[adj]) {
+          isArtPoint = true;
+          if (disc[n] < low[adj]) {
+            critEdges.add(Arrays.asList(n, adj));
+          }
+        } else {
+          low[n] = Math.min(low[n], low[adj]);
+        }
+      } else {
+        low[n] = Math.min(low[n], disc[adj]);
+      }
+    }
+
+    if ((p == -1 && childCount >= 2) || (p != -1 && isArtPoint)) {
+      artPoints.add(n);
+    }
+  }
+
   public static void main(String[] args) {
     List<List<Integer>> graph = new ArrayList<>();
     graph.add(Arrays.asList(0, 1));
@@ -70,68 +133,5 @@ public class CriticalConnections {
     graph.add(Arrays.asList(8, 10));
     System.out.println(new CriticalConnections().criticalConnections(11, graph).toString() + "\n");
 
-  }
-
-  public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
-    List<List<Integer>> graph = new ArrayList<>();
-    for (int i = 0; i < n; i++) {
-      graph.add(new ArrayList<>());
-    }
-
-    for (List<Integer> edge : connections) {
-      int v1 = edge.get(0);
-      int v2 = edge.get(1);
-      graph.get(v1).add(v2);
-      graph.get(v2).add(v1);
-    }
-
-    int[] discTimes = new int[n]; // discovery time of each node
-    int[] lowTimes = new int[n]; // earliest discovered node reachable from this node in DFS
-    boolean[] visited = new boolean[n]; // whether this node has been visited in DFS
-    List<List<Integer>> critEdges = new ArrayList<>();
-    List<Integer> artPoints = new ArrayList<>();
-
-    dfs(0, -1, 0, discTimes, lowTimes, visited, graph, critEdges, artPoints); // arbitrarily pick a node to start DFS
-    artPoints.forEach(artPoint -> System.out.println("AP: " + artPoint));
-    return critEdges;
-  }
-
-  // n = current node under consideration
-  // parent = parent of current node
-  private void dfs(int v, int parent, int discTime, int[] discTimes, int[] lowTimes, boolean[] seen,
-      List<List<Integer>> graph, List<List<Integer>> critEdges, List<Integer> artPoints) {
-    seen[v] = true;
-    discTimes[v] = discTime;
-    lowTimes[v] = discTimes[v]; // lowTime can't be higher than discTime
-
-    // art points variables
-    int childCount = 0;
-    boolean isArtPoint = false;
-
-    for (int neighbor : graph.get(v)) {
-      if (neighbor == parent) {
-        continue;
-      }
-
-      if (!seen[neighbor]) {
-        childCount++;
-        dfs(neighbor, v, discTime + 1, discTimes, lowTimes, seen, graph, critEdges, artPoints);
-
-        if (discTimes[v] <= lowTimes[neighbor]) {
-          isArtPoint = true;
-          if (discTimes[v] < lowTimes[neighbor]) {
-            critEdges.add(Arrays.asList(v, neighbor));
-          }
-        } else {
-          lowTimes[v] = Math.min(lowTimes[v], lowTimes[neighbor]);
-        }
-      } else {
-        lowTimes[v] = Math.min(lowTimes[v], discTimes[neighbor]);
-      }
-    }
-
-    if ((parent == -1 && childCount >= 2) || (parent != -1 && isArtPoint)) {
-      artPoints.add(v);
-    }
   }
 }

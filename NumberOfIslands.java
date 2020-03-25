@@ -17,42 +17,46 @@ public class NumberOfIslands {
   // to keep the grid the same, we can either:
   // 1) flag the cell as '2', so we know not to process it, and clean it up later;
   // 2) keep a hashset of visited cells, with strings of "row,col" format.
+  public static void main(String[] args) {
+    System.out.println(new NumberOfIslands().numIslands(new char[][]{{'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}}));
+  }
+
+  int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
   // bfs solution
   public int numIslands(char[][] grid) {
-    if (grid == null || grid.length == 0) {
-      return 0;
-    }
-
     int count = 0;
 
-    for (int r = 0; r < grid.length; ++r) {
-      for (int c = 0; c < grid[r].length; ++c) {
-        if (grid[r][c] == '1') {
+    for (int i = 0; i < grid.length; ++i) {
+      for (int k = 0; k < grid[i].length; ++k) {
+        if (grid[i][k] == '1') {
           count++;
-          Queue<String> neighbors = new LinkedList<>();
-          neighbors.add(r + "," + c);
-
-          while (!neighbors.isEmpty()) {
-            String[] id = neighbors.remove().split(",");
-            int row = Integer.parseInt(id[0]);
-            int col = Integer.parseInt(id[1]);
-
-            if (row < 0 || col < 0 || row >= grid.length || col >= grid[row].length || grid[row][col] != '1') {
-              continue;
-            }
-            grid[row][col] = '0';
-
-            neighbors.add((row - 1) + "," + col);
-            neighbors.add((row + 1) + "," + col);
-            neighbors.add(row + "," + (col - 1));
-            neighbors.add(row + "," + (col + 1));
-          }
+          bfs(grid, i, k);
         }
       }
     }
 
     return count;
+  }
+
+  void bfs(char[][] grid, int i, int k) {
+    Queue<String> q = new LinkedList<>();
+    q.add(i + "," + k);
+
+    while (!q.isEmpty()) {
+      String[] id = q.poll().split(",");
+      int row = Integer.parseInt(id[0]);
+      int col = Integer.parseInt(id[1]);
+
+      if (row < 0 || col < 0 || row >= grid.length || col >= grid[row].length || grid[row][col] != '1') {
+        continue;
+      }
+      grid[row][col] = '2';
+
+      for (int[] dir : dirs) {
+        q.add((row + dir[0]) + "," + (col + dir[1]));
+      }
+    }
   }
 
   // dfs solution
@@ -76,11 +80,10 @@ public class NumberOfIslands {
       return;
     }
 
-    grid[i][k] = '0';
+    grid[i][k] = '2';
 
-    dfs(grid, i - 1, k);
-    dfs(grid, i + 1, k);
-    dfs(grid, i, k - 1);
-    dfs(grid, i, k + 1);
+    for (int[] dir : dirs) {
+      dfs(grid, i + dir[0], k + dir[0]);
+    }
   }
 }

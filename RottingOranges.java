@@ -6,12 +6,12 @@ import java.util.Queue;
 import java.util.Set;
 
 public class RottingOranges {
+  int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
   // my solution
   public int orangesRotting(int[][] grid) {
     Set<String> rotten = new HashSet<>();
     Set<String> fresh = new HashSet<>();
-    Set<String> infected = new HashSet<>();
 
     for (int i = 0; i < grid.length; i++) {
       for (int k = 0; k < grid[i].length; k++) {
@@ -24,9 +24,10 @@ public class RottingOranges {
     }
 
     int count = 0;
-    int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
     while (!fresh.isEmpty()) {
+      Set<String> infected = new HashSet<>();
+
       for (String s : rotten) {
         int row = Integer.parseInt(s.split(",")[0]);
         int col = Integer.parseInt(s.split(",")[1]);
@@ -45,7 +46,6 @@ public class RottingOranges {
 
       count++;
       rotten = new HashSet<>(infected);
-      infected.clear();
     }
 
     return count;
@@ -71,7 +71,6 @@ public class RottingOranges {
       }
     }
 
-    int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
     int count = 0;
 
     while (!q.isEmpty()) {
