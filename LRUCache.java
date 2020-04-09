@@ -22,7 +22,6 @@ import Util.Util;
  */
 
 public class LRUCache {
-
   Map<Integer, Node> map = new HashMap<>();
   Node head = null;
   Node tail = null;

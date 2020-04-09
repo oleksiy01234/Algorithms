@@ -21,7 +21,7 @@ public class AutocompleteSystem {
   }
 
   Trie root;
-  String cur_sent = "";
+  String thisSentence = "";
 
   public int charToInt(char c) {
     return c == ' ' ? 26 : c - 'a';
@@ -81,13 +81,20 @@ public class AutocompleteSystem {
   public List<String> input(char c) {
     List<String> res = new ArrayList<>();
     if (c == '#') {
-      insert(root, cur_sent, 1);
-      cur_sent = "";
+      insert(root, thisSentence, 1);
+      thisSentence = "";
     } else {
-      cur_sent += c;
-      List<Sentence> list = lookup(root, cur_sent);
-      Collections.sort(list,
-          (a, b) -> a.frequency == b.frequency ? a.sentence.compareTo(b.sentence) : b.frequency - a.frequency);
+      thisSentence += c;
+      List<Sentence> list = lookup(root, thisSentence);
+      Collections.sort(list, (a, b) -> {
+        int freqDiff = a.frequency - b.frequency;
+        if (freqDiff != 0) {
+          return freqDiff;
+        }
+
+        return a.sentence.compareTo(b.sentence);
+      });
+
       for (int i = 0; i < Math.min(3, list.size()); i++) {
         res.add(list.get(i).sentence);
       }
