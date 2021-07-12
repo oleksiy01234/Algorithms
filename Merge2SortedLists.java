@@ -1,3 +1,5 @@
+import DataStructures.ListNode;
+
 /**
  * 21. Merge Two Sorted Lists (Easy)
  * https://leetcode.com/problems/merge-two-sorted-lists/
@@ -10,7 +12,7 @@
 public class Merge2SortedLists {
 
   // recursive: O(min(n,m)) time and space
-  public Node mergeTwoLists(Node l1, Node l2) {
+  public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
     if (l1 == null) {
       return l2;
     } else if (l2 == null) {
@@ -25,9 +27,9 @@ public class Merge2SortedLists {
   }
 
   // iterative O(min(n,m)) time, O(1) space
-  public Node mergeTwoLists2(Node l1, Node l2) {
-    Node preHead = new Node();
-    Node n = preHead;
+  public ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
+    ListNode preHead = new ListNode();
+    ListNode n = preHead;
 
     while (l1 != null && l2 != null) {
       if (l1.val < l2.val) {

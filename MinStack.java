@@ -1,9 +1,11 @@
+import DataStructures.ListNode;
+
 class MinStack {
-  // Node in Util.java
-  Node head = null;
+  // DataStructures.ListNode in Util.Util.java
+  ListNode head = null;
   
   public void push(int x) {
-    Node n = new Node(x, head == null ? x : Math.min(head.min, x), head);
+    ListNode n = new ListNode(x, head == null ? x : Math.min(head.min, x), head);
     head = n;
   }
 

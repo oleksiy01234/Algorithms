@@ -1,18 +1,20 @@
+import DataStructures.ListNode;
+
 import java.util.HashMap;
 import java.util.Map;
 
 class RandomLinkedListCopy {
   // constant space
-  public Node copyRandomList(Node oldHead) {
+  public ListNode copyRandomList(ListNode oldHead) {
     if (oldHead == null) {
       return null;
     }
 
     // interweave new nodes
-    Node n = oldHead;
+    ListNode n = oldHead;
     while (n != null) {
-      Node nNext = n.next;
-      n.next = new Node(n.val);
+      ListNode nNext = n.next;
+      n.next = new ListNode(n.val);
       n.next.next = nNext;
       n = nNext;
     }
@@ -27,7 +29,7 @@ class RandomLinkedListCopy {
     }
 
     // un-weave old and new nodes
-    Node newHead = oldHead.next;
+    ListNode newHead = oldHead.next;
     n = oldHead.next;
     while (n.next != null) {
       oldHead.next = n.next;
@@ -41,15 +43,15 @@ class RandomLinkedListCopy {
   }
 
   // linear space
-  public Node copyRandomList2(Node head) {
+  public ListNode copyRandomList2(ListNode head) {
     if (head == null) {
       return null;
     }
 
-    Map<Node, Node> cloneMap = new HashMap<>();
-    Node curr = head;
+    Map<ListNode, ListNode> cloneMap = new HashMap<>();
+    ListNode curr = head;
     while (curr != null) {
-      cloneMap.put(curr, new Node(curr.val));
+      cloneMap.put(curr, new ListNode(curr.val));
       curr = curr.next;
     }
 

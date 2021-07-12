@@ -1,3 +1,5 @@
+import DataStructures.ListNode;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,7 +35,7 @@ import java.util.Queue;
 
 public class SerializeTree {
   // dfs preorder
-  public String serialize(Node n) {
+  public String serialize(ListNode n) {
     if (n == null) {
       return "null,";
     }
@@ -41,11 +43,11 @@ public class SerializeTree {
     return n.val + "," + serialize(n.left) + serialize(n.right);
   }
 
-  public Node deserialize(String s) {
+  public ListNode deserialize(String s) {
     return deserialize(new StringBuilder(s));
   }
 
-  Node deserialize(StringBuilder sb) {
+  ListNode deserialize(StringBuilder sb) {
     if (sb.length() == 0) {
       return null;
     }
@@ -56,24 +58,24 @@ public class SerializeTree {
       return null;
     }
 
-    Node n = new Node(Integer.parseInt(val));
+    ListNode n = new ListNode(Integer.parseInt(val));
     n.left = deserialize(sb);
     n.right = deserialize(sb);
     return n;
   }
 
   // bfs inorder
-  public String serialize2(Node root) {
+  public String serialize2(ListNode root) {
     if (root == null) {
       return "";
     }
 
     StringBuilder sb = new StringBuilder();
-    Queue<Node> q = new LinkedList<>();
+    Queue<ListNode> q = new LinkedList<>();
     q.add(root);
 
     while (!q.isEmpty()) {
-      Node n = q.poll();
+      ListNode n = q.poll();
       if (n == null) {
         sb.append("null,");
       } else {
@@ -86,20 +88,20 @@ public class SerializeTree {
     return sb.toString();
   }
 
-  public Node deserialize2(String s) {
+  public ListNode deserialize2(String s) {
     if (s.isEmpty()) {
       return null;
     }
 
     String[] vals = s.split(",");
-    Queue<Node> q = new LinkedList<>();
+    Queue<ListNode> q = new LinkedList<>();
     int index = 0;
 
-    Node root = makeNode(vals[index]);
+    ListNode root = makeNode(vals[index]);
     q.add(root);
 
     while (!q.isEmpty()) {
-      Node n = q.poll();
+      ListNode n = q.poll();
       if (n == null) {
         continue;
       }
@@ -113,7 +115,7 @@ public class SerializeTree {
     return root;
   }
 
-  Node makeNode(String s) {
-    return s.equals("null") ? null : new Node(Integer.parseInt(s));
+  ListNode makeNode(String s) {
+    return s.equals("null") ? null : new ListNode(Integer.parseInt(s));
   }
 }

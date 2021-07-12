@@ -1,4 +1,5 @@
 package Util;
+
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Util.java contains common utility functions used by many other classes.
+ * Util.Util.java contains common utility functions used by many other classes.
  */
 public class Util {
   public static Random rand = new Random();

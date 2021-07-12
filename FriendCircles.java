@@ -1,3 +1,5 @@
+import DataStructures.ListNode;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -92,7 +94,7 @@ public class FriendCircles {
 
   // approach 3: Union Set
   public int findCircleNum3(int[][] m) {
-    Map<Integer, Node> map = new HashMap<>();
+    Map<Integer, ListNode> map = new HashMap<>();
 
     for (int i = 0; i < m.length; i++) {
       makeSet(map, i);
@@ -106,23 +108,23 @@ public class FriendCircles {
       }
     }
 
-    Set<Node> set = new HashSet<>();
-    for (Node n : map.values()) {
+    Set<ListNode> set = new HashSet<>();
+    for (ListNode n : map.values()) {
       set.add(findSet(n));
     }
     return set.size();
   }
 
-  private void makeSet(Map<Integer, Node> map, int val) {
-    Node n = new Node(val);
+  private void makeSet(Map<Integer, ListNode> map, int val) {
+    ListNode n = new ListNode(val);
     n.rank = 0;
     n.parent = n;
     map.put(val, n);
   }
 
-  private void union(Map<Integer, Node> map, int n1, int n2) {
-    Node root1 = findSet(map.get(n1));
-    Node root2 = findSet(map.get(n2));
+  private void union(Map<Integer, ListNode> map, int n1, int n2) {
+    ListNode root1 = findSet(map.get(n1));
+    ListNode root2 = findSet(map.get(n2));
 
     if (root1.val == root2.val) {
       return;
@@ -138,7 +140,7 @@ public class FriendCircles {
     }
   }
 
-  private Node findSet(Node n) {
+  private ListNode findSet(ListNode n) {
     if (n.parent == n) {
       return n;
     }

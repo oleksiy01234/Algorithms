@@ -1,8 +1,10 @@
+package DataStructures;
+
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 /**
- * LFUCache
+ * DataStructures.LFUCache
  */
 public class LFUCache {
   HashMap<Integer, Integer> vals;

@@ -1,3 +1,5 @@
+import DataStructures.ListNode;
+
 import java.util.PriorityQueue;
 
 /**
@@ -17,15 +19,15 @@ import java.util.PriorityQueue;
  */
 public class MergeKSortedLists {
 
-  public Node mergeKLists(Node[] lists) {
-    PriorityQueue<Node> pq = new PriorityQueue<>((l1, l2) -> l1.val - l2.val);
+  public ListNode mergeKLists(ListNode[] lists) {
+    PriorityQueue<ListNode> pq = new PriorityQueue<>((l1, l2) -> l1.val - l2.val);
 
-    for (Node l : lists) {
+    for (ListNode l : lists) {
       pq.add(l);
     }
 
-    Node preHead = new Node();
-    Node n = preHead;
+    ListNode preHead = new ListNode();
+    ListNode n = preHead;
 
     while (!pq.isEmpty()) {
       n.next = pq.poll();

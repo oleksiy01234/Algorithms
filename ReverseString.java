@@ -15,7 +15,7 @@ public class ReverseString {
   // iterative, single pointer. O(n) time, O(1) space
   public void reverseString(char[] s) {
     for (int i = 0; i < s.length / 2; i++) {
-      Util.swap(s, i, s.length - i - 1);
+      swap(s, i, s.length - i - 1);
     }
   }
 
@@ -38,7 +38,19 @@ public class ReverseString {
       return;
     }
 
-    Util.swap(s, lo, hi);
+    swap(s, lo, hi);
     reverseString(s, ++lo, --hi);
+  }
+
+  public void swap(int[] a, int i1, int i2) {
+    int tmp = a[i1];
+    a[i1] = a[i2];
+    a[i2] = tmp;
+  }
+
+  public void swap(char[] a, int i1, int i2) {
+    char tmp = a[i1];
+    a[i1] = a[i2];
+    a[i2] = tmp;
   }
 }
